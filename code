@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Check if a log file was provided
+if [ -z "$1" ]; then
+    echo "Usage: $0 <log_file>"
+    exit 1
+fi
+
+LOG_FILE=$1
+
+echo "--------------------------------------"
+echo " Analyzing Log: $LOG_FILE "
+echo "--------------------------------------"
+
+# 1. Count Total Requests
+TOTAL=$(wc -l < "$LOG_FILE")
+echo "Total Requests: $TOTAL"
+
+# 2. Find Top 5 IP Addresses (using awk and sort)
+echo -e "\nTop 5 IP Addresses:"
+awk '{print $1}' "$LOG_FILE" | sort | uniq -c | sort -nr | head -5
+
+# 3. Search for 404 Errors (using grep)
+echo -e "\nNumber of 404 Errors:"
+grep -c " 404 " "$LOG_FILE"
+
+# 4. List Unique HTTP Status Codes (using sed and awk)
+echo -e "\nUnique Status Codes Found:"
+awk '{print $9}' "$LOG_FILE" | grep -E '^[0-9]{3}$' | sort -u
