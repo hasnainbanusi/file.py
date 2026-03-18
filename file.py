@@ -1,6 +1,7 @@
 print("Hello world")
 
 Github Commands
+
 1. git init (initilization)
 2. git status (check status of file)
 3. git add file-name (add file to stage from untracked status)
